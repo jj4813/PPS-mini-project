@@ -1,0 +1,94 @@
+/***************************************************************************************************
+
+                              Differential and Integral Calculator
+Calculates the value of the equation after differentiation oe integration as per user's choice
+                                 Abhinav Jella RA2111019010008
+
+****************************************************************************************************/
+#include <stdio.h>
+#include <math.h>
+float poly(float a[], int, float); //function to calculate the value of the Polynomial
+float deriv(float a[], int, float); //function to calculate the value of the Differential
+float integ(float a[], int, float); //function to calculate the value of the Integral
+int main()
+{
+    float x, a[10], y, dy, Iy;
+    int deg, i, ch;
+    do
+    {
+        printf("Enter a choice :-\n1)Differential Calculator\n2)Integral Calculator\n3)Quit\n");
+        scanf("%d", &ch);
+        switch(ch) //Calculation on the basis of user's chioce
+        {
+            case 1: // Differential
+            printf("Degree of Polynomial Equation: ");
+            scanf("%d", &deg);
+            printf("Enter the value of x: ");
+            scanf("%f", &x);
+            for(i = 0; i <= deg; i++)
+            {
+                printf("Enter the coefficient of x to the power %d: ", i);
+                scanf("%f", &a[i]);
+            }
+            y = poly(a, deg, x);
+            printf("The value of Polynomial Equation = %.2f", y);
+            dy = deriv(a, deg, x);
+            printf("\nThe value of the Derivative = %.2f\n", dy);
+            break;
+            case 2: //Integral
+            printf("Degree of Polynomial Equation: ");
+            scanf("%d", &deg);
+            printf("Enter the value of x: ");
+            scanf("%f", &x);
+            for(i = 0; i <= deg; i++)
+            {
+                printf("Enter the coefficient of x to the power %d: ", i);
+                scanf("%f", &a[i]);
+            }
+            y = poly(a, deg, x);
+            printf("The value of Polynomial Equation = %.2f", y);
+            Iy = integ(a, deg, x);
+            printf("\nThe value of the Integral = %.2f\n", Iy);
+            break;
+            case 3: //Quit
+            printf("Thank You!");
+            goto A;
+            default:
+            printf("Wrong choice!! Enter the choice again!\n");
+        }
+    }while(1);
+    A:
+    return 0;
+}
+float poly(float a[], int deg, float x)
+{
+    float p = a[deg];
+    int i;
+    for(i = deg; i >= 1; i--) //Calculation of the Polynomial
+        p = (a[i - 1] + x * p);
+    return p;
+}
+float deriv(float a[], int deg, float x)
+{
+    float d[10], pd = 0, ps;
+    int i;
+    for (i = 0; i <= deg; i++) //Calculation of the Differential
+    {
+        ps = pow(x, deg - (i + 1));
+        d[i] = (deg - i) * a[deg - i] * ps;
+        pd = pd + d[i];
+    }
+    return pd;
+}
+float integ(float a[], int deg, float x)
+{
+    float d[10], pd = 0, ps;
+    int i;
+    for (i = 0; i <= deg; i++) ////Calculation of the Integral
+    {
+        ps = pow(x, (i + 1))/(i+1);
+        d[i] = a[i] * ps;
+        pd = pd + d[i];
+    }
+    return pd;
+}
